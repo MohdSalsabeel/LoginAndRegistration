@@ -342,6 +342,10 @@ int main(){
     ofstream databaseFile("databaseRecord.txt",ios::out);
 
     databaseFile<<obj[0].user_id<<" "<<obj[0].password<<" "<<obj[0].pin<<" "<<obj[0].imei_no<<" "<<obj[0].location<<" "<<obj[0].mobile_no<<" "<<obj[0].time<<endl;
+    databaseFile<<obj[1].user_id<<" "<<obj[1].password<<" "<<obj[1].pin<<" "<<obj[1].imei_no<<" "<<obj[1].location<<" "<<obj[1].mobile_no<<" "<<obj[1].time<<endl;
+    databaseFile<<obj[2].user_id<<" "<<obj[2].password<<" "<<obj[2].pin<<" "<<obj[2].imei_no<<" "<<obj[2].location<<" "<<obj[2].mobile_no<<" "<<obj[2].time<<endl;
+    databaseFile<<obj[3].user_id<<" "<<obj[3].password<<" "<<obj[3].pin<<" "<<obj[3].imei_no<<" "<<obj[3].location<<" "<<obj[3].mobile_no<<" "<<obj[3].time<<endl;
+    databaseFile<<obj[4].user_id<<" "<<obj[4].password<<" "<<obj[4].pin<<" "<<obj[4].imei_no<<" "<<obj[4].location<<" "<<obj[4].mobile_no<<" "<<obj[4].time<<endl;
 
     databaseFile.close();
 
