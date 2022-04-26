@@ -18,10 +18,10 @@ class User
     string password;
     string pin;
     string imei_no;
-    float location;
-    
+    string location;
+
     string mobile_no;
-    int time;
+    string time;
 
 };
 
@@ -78,7 +78,7 @@ class LoginPage : public User
 
         string login_user_id;
         string login_password;
-        int login_time;
+        string login_time;
         //cout<<lobj[0].user_id<<"Hello"<<endl;
         //cout<<lobj[0].password<<"World"<<endl;
         cout<<"Enter login user id: "<<endl;
@@ -88,7 +88,9 @@ class LoginPage : public User
         cout<<"Enter login time: "<<endl;
         cin>>login_time;
 
-        //cout<<encrypt(login_password)<<endl;
+        cout<<encrypt(login_user_id)<<endl;
+        cout<<encrypt(login_password)<<endl;
+
 
         while(database_file>>user_name>>mobile_no>>user_id>>email_id>>password>>pin>>imei_no>>location>>time){
 
@@ -125,7 +127,7 @@ class ForgetPassword : public User
         new_database_file.open("newDatabaseRecordtest.txt",ios::out);
 
         string pins;
-        int times;
+        string times;
         cout<<"Enter the pin "<<endl;
         cin>>pins;
         cout<<"Enter the last time "<<endl;
@@ -134,7 +136,7 @@ class ForgetPassword : public User
 
 
         while(database_file>>user_name>>mobile_no>>user_id>>email_id>>password>>pin>>imei_no>>location>>time){
-            if(encrypt(pins)==pin && encrypt(to_string(times))==to_string(time)){
+            if(encrypt(pins)==pin && encrypt(times)==time){
                 string new_password;
                 cout<<"Enter the new password"<<endl;
                 cin>>new_password;
@@ -181,8 +183,8 @@ public:
 class ThirdStepVerfication : public User
 {
     string verfiy_imei_number;
-    float verify_current_location;
-    float verify_previous_location;
+    string verify_current_location;
+    string verify_previous_location;
     string verify_mobile_no;
 public:
     void correct_third_step(){
@@ -208,7 +210,7 @@ public:
 
 
         while(database_file>>user_name>>mobile_no>>user_id>>email_id>>password>>pin>>imei_no>>location>>time){
-            if(encrypt(verfiy_imei_number)==imei_no && encrypt(to_string(verify_previous_location))==to_string(location) && encrypt(verify_mobile_no)==mobile_no){
+            if(encrypt(verfiy_imei_number)==imei_no && encrypt(verify_previous_location)==location && encrypt(verify_mobile_no)==mobile_no){
                 //cout<<"Successfully"<<endl;
 
                 location=verify_current_location;
@@ -217,9 +219,9 @@ public:
                     new_database_file<< user_name <<" "<< mobile_no <<" "<< user_id <<" "<< email_id <<" "<< password <<" "<< pin <<" "<< imei_no <<" "<< location <<" "<< time <<endl;
                 }
 
-                char current_location_character=(char)verify_current_location;
-                char previous_location_character=(char)verify_previous_location;
-                char mobile_number_character=verify_mobile_no.size();
+                string current_location_character="a";
+                string previous_location_character="b";
+                string mobile_number_character="c";
 
                 string token=verfiy_imei_number+current_location_character+previous_location_character+mobile_number_character;
                 cout<<"Token is generated "<<endl;
@@ -300,8 +302,8 @@ int main(){
             string password1;
             string pin1;
             string imei_no1;
-            float location1;
-            int time1;
+            string location1;
+            string time1;
 
             fstream database_file;
             database_file.open("databaseRecordtest.txt",ios::out | ios::app | ios::in);
@@ -381,17 +383,17 @@ int main(){
 
             database_file.open("databaseRecordtest.txt",ios::in);
             while(database_file>>user_name1>>mobile_no1>>user_id1>>email_id1>>password1>>pin1>>imei_no1>>location1>>time1){
-                if(unique_user_id==user_id1){
+                if(encrypt(unique_user_id)==user_id1){
                     cout<<"Please write different name and mobile no"<<endl;
                     goto loop;
                     break;
                 }
-                if(obj.mobile_no==mobile_no1){
+                if(encrypt(obj.mobile_no)==mobile_no1){
                     cout<<"Mobile number must be different"<<endl;
                     goto loop;
                     break;
                 }
-                if(obj.email_id==email_id1){
+                if(encrypt(obj.email_id)==email_id1){
                     cout<<"Email id must be different"<<endl;
                     goto loop;
                     break;
@@ -399,7 +401,8 @@ int main(){
                 //cout<<user_name1<<endl;
             }
 
-
+            cout<<encrypt(obj.mobile_no)<<endl;
+            cout<<encrypt(obj.mobile_no)<<endl;
 
 
             //cout<<three_user_word+three_mobile_word<<endl;
@@ -416,8 +419,8 @@ int main(){
             database_file<<encrypt(obj.password)<<" ";
             database_file<<encrypt(obj.pin)<<" ";
             database_file<<encrypt(obj.imei_no)<<" ";
-            database_file<<encrypt(to_string(obj.location))<<" ";
-            database_file<<encrypt(to_string(obj.time))<<" ";
+            database_file<<encrypt(obj.location)<<" ";
+            database_file<<encrypt(obj.time)<<" ";
             database_file<<endl;
 
             database_file.close();
