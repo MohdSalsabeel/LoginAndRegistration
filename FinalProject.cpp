@@ -19,7 +19,7 @@ class User
     string pin;
     string imei_no;
     string location;
-
+    
     string mobile_no;
     string time;
 
@@ -88,9 +88,7 @@ class LoginPage : public User
         cout<<"Enter login time: "<<endl;
         cin>>login_time;
 
-        cout<<encrypt(login_user_id)<<endl;
-        cout<<encrypt(login_password)<<endl;
-
+        //cout<<encrypt(login_password)<<endl;
 
         while(database_file>>user_name>>mobile_no>>user_id>>email_id>>password>>pin>>imei_no>>location>>time){
 
@@ -140,16 +138,22 @@ class ForgetPassword : public User
                 string new_password;
                 cout<<"Enter the new password"<<endl;
                 cin>>new_password;
-                password=new_password;
+                password=encrypt(new_password);
                 new_database_file<< user_name <<" "<< mobile_no <<" "<< user_id <<" "<< email_id <<" "<< password <<" "<< pin <<" "<< imei_no <<" "<< location <<" "<< time <<endl;
                 while(database_file>>user_name>>mobile_no>>user_id>>email_id>>password>>pin>>imei_no>>location>>time){
                     new_database_file<< user_name <<" "<< mobile_no <<" "<< user_id <<" "<< email_id <<" "<< password <<" "<< pin <<" "<< imei_no <<" "<< location <<" "<< time <<endl;
                 }
-
+                database_file.close();
+                new_database_file.close();
+                remove("databaseRecordtest.txt");
+                rename("newDatabaseRecordtest.txt","databaseRecordtest.txt");
                 cout<<"Successfully "<<endl;
 
             }
         }
+        //remove("databaseRecordtest.txt");
+        //rename("newDatabaseRecordtest.txt","databaseRecordtest.txt");
+
 
     }
 };
@@ -213,17 +217,17 @@ public:
             if(encrypt(verfiy_imei_number)==imei_no && encrypt(verify_previous_location)==location && encrypt(verify_mobile_no)==mobile_no){
                 //cout<<"Successfully"<<endl;
 
-                location=verify_current_location;
+                location=encrypt(verify_current_location);
                 new_database_file<< user_name <<" "<< mobile_no <<" "<< user_id <<" "<< email_id <<" "<< password <<" "<< pin <<" "<< imei_no <<" "<< location <<" "<< time <<endl;
                 while(database_file>>user_name>>mobile_no>>user_id>>email_id>>password>>pin>>imei_no>>location>>time){
                     new_database_file<< user_name <<" "<< mobile_no <<" "<< user_id <<" "<< email_id <<" "<< password <<" "<< pin <<" "<< imei_no <<" "<< location <<" "<< time <<endl;
                 }
 
-                string current_location_character="a";
-                string previous_location_character="b";
-                string mobile_number_character="c";
+                // string current_location_character="a";
+                // string previous_location_character="b";
+                // string mobile_number_character="c";
 
-                string token=verfiy_imei_number+current_location_character+previous_location_character+mobile_number_character;
+                string token=verfiy_imei_number+verify_current_location+verify_previous_location+verify_mobile_no;
                 cout<<"Token is generated "<<endl;
                 cout<<token<<endl;
                 cout<<endl;
@@ -251,13 +255,13 @@ int main(){
     //User obj[5];
     User obj;
     loop:
-    //cout<<"**********************************************************"<<endl;
+    cout<<"**********************************************************"<<endl;
     cout<<"----------------------------------------------------------"<<endl;
     cout<<"                1. Sign Up           "<<endl;
     cout<<"                2. Already Register/Sign In              "<<endl;
     cout<<"                3. Forget Password                      "<<endl;
     cout<<"----------------------------------------------------------"<<endl;
-    //cout<<"***********************************************************"<<endl;
+    cout<<"***********************************************************"<<endl;
 
     int choice;
     cout<<"Enter the choice: "<<endl;
@@ -401,8 +405,7 @@ int main(){
                 //cout<<user_name1<<endl;
             }
 
-            cout<<encrypt(obj.mobile_no)<<endl;
-            cout<<encrypt(obj.mobile_no)<<endl;
+
 
 
             //cout<<three_user_word+three_mobile_word<<endl;
